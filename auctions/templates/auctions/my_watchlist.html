@@ -14,17 +14,17 @@
                     <section>
                         <div class="content">
                             <header>
-                                <img src="{{ listing.image }}" width="200" height="150">
+                                <img src="{{ listing.listing.image }}" width="200" height="150">
                                 <h3>
-                                    <a href='{% url "view_listing" listing.id %}'> {{listing.name}}</a>
+                                    <a href='{% url "view_listing" listing.listing.id %}'>{{listing.listing.name}}</a>
                                 </h3>
-                                <p>by {{listing.user}}</p>
+                                <p>by {{listing.listing.user}}</p>
                             </header>
-                            <p>{{listing.description}}</p>
-                            {% if listing.bids.last %}
-                                <p> last bid - {{listing.bids.last}} </p>
+                            <p>{{listing.listing.description}}</p>
+                            {% if listing.listing.bids.last %}
+                                <p> last bid - {{listing.listing.bids.last}} </p>
                             {% else %}
-                                <p> starting price - {{listing.price}} </p>
+                                <p> starting price - {{listing.listing.price}} </p>
                             {% endif %}
                         </div>
                     </section>

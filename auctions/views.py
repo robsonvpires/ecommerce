@@ -145,9 +145,7 @@ def finish_listing(request, listing_id):
         listing_to_finish = Listing.objects.get(id=listing_id)   
         listing_to_finish.active = False
         listing_to_finish.save()
-        return render(request, 'auctions/view_listing.html', {
-            'listing': listing_to_finish 
-        })
+        return redirect(request.META['HTTP_REFERER'])
 
 @login_required
 def in_watchlist(request, listing_id):
