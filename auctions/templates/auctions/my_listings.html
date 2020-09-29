@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %} My Listings {% endblock %}
+
+{% block body %}
+<section class="wrapper">
+    <div class="inner"> 
+        <header class="special">
+            <h1>My Listings</h1>
+        </header>
+        <div class="highlights">
+            {% if my_listings %}
+                {% for listing in my_listings %}
+                    <section>
+                        <div class="content">
+                            <header> 
+                                <img src="{{ listing.image }}"  width="200" height="150">
+                                <h3>
+                                    <a href='{% url "view_listing" listing.id %}'> {{listing.name}} </a>
+                                </h3>
+                                <p>by {{listing.user}}</p>
+                            </header>
+                            <p>{{listing.description}}</p>
+                            {% if listing.bids.last %}
+                                <p> last bid - {{listing.bids.last}} </p>
+                            {% else %}
+                                <p> starting price - {{listing.price}} </p>
+                            {% endif %}
+                        <div>
+                    </section>
+                {% endfor %}
+            {% else %}
+                <section>
+                    <p> No Listings created yet </p>
+                </section>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

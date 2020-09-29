@@ -1,0 +1,100 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ listing.name }} {% endblock%}
+
+{% block body %}
+<section class="wrapper">
+    <div class="inner">
+        
+        <header class="special">
+            <h1>{{ listing.name }}</h1>
+            <img src="{{ listing.image }}"  width="400" height="300">
+        </header>
+        
+        <div class="highlights">
+            <section>
+                <div class='content'>
+                    <h2>Description</h2>
+                    <p> {{ listing.description }} </p>
+                    <p>category: {{listing.category}}</p>
+                    {% if listing.active %}
+                        <p>status: Active</p>
+                        {% if not request.user == listing.user %}
+                            {% if in_watchlist %}
+                                <a href='{% url "in_watchlist" listing.id %}'>Remove to watchlist</a>
+                            {% else %}
+                                <a href='{% url "in_watchlist" listing.id %}'>Add to watchlist</a>
+                            {% endif %}
+                        {% else %}
+                            <a href='{% url "finish_listing" listing.id %}'>Finish Listing</a>
+                        {% endif %}
+                    {% else %}
+                        <span>status: Closed</span>
+                    {% endif %}
+                </div>
+            </section>
+            <section>
+                <div class='content'>
+                    <h2>Bids</h2>
+                    {% if not listing.active %}
+                        <p>Listing finished</p>
+                    {% endif %}
+                    
+                    {% if listing.active %}
+                        <div>
+                            <p>Initial Bid: $ {{listing.price}}</p>
+                            {% if listing.bids.last %}
+                                <p>Last bid: $ {{listing.bids.last}}</p>
+                            {% else %}
+                                <p> No bids yet</p>
+                            {% endif %}
+                        </div>
+                        <form action='{% url "view_listing" listing.id %}' method='POST'>
+                            <input type='hidden' name='form_type' value='post_bid'>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ new_bid.value|as_crispy_field }}
+                            </div>
+                            <section>
+                                <button type='submit'>Bid</button>
+                            </section>
+                        </form>
+                    {% else %}
+                        {% if listing.bids.last %}
+                            <p>{{ listing.bids.last.user }} won, final bid: $ {{ listing.bids.last.value }} </p>
+                        {% else %}
+                            <p>Listing finished with not Bids</p>
+                        {% endif %}
+                    {% endif %}
+                   
+                </div>
+            </section>
+            <section>
+                <div class='content'>
+                    <h2>Comments</h2>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <p>{{comment}}</p>
+                        {% endfor %}
+                    {% else %}
+                        <P>No Comments yet</P>
+                    {% endif %}
+                    <form action='{% url "view_listing" listing.id %}' method='POST'>
+                        <input type="hidden" name="form_type" value="post_comment">
+                        {% csrf_token %}
+                            <div class="form-group">
+                                {{ new_comment.content|as_crispy_field }}
+                            </div>
+                            <section>
+                                <button type='submit'>Post</button>
+                            </section>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+    </head>
+    <body class="is-preload">
+        <!-- HEADER -->
+        <header id="header">      
+            <div>      
+                {% if user.is_authenticated %}
+                    <strong>Signed in as </strong> {{ user.username }}
+                {% else %}
+                    Not signed in.
+                {% endif %}
+            </div>
+            <a class='logo' href="{% url 'index' %}">Active Listings</a>
+            <a class='logo' href="{% url 'create_listing' %}">Create Listing</a>
+
+            
+                    {% if user.is_authenticated %}
+                        <a class='logo' href="{% url 'my_watchlist' %}">My Watchlist</a>
+                        <a class='logo' href="{% url 'my_listings' %}">My Listings</a>
+                        <a class='logo' href="{% url 'logout' %}">Log Out</a>
+                    {% else %}
+                        <a class='logo' href="{% url 'login' %}">Log In</a>
+                        <a class='logo' href="{% url 'register' %}">Register</a>
+                    {% endif %}
+        </header>
+
+       
+        {% block body %}
+        {% endblock %}
+
+        <footer id='footer'>
+            <div class='inner'>
+                <div class="copyright">
+                    &copy; Robson Pires 2020. Created for academic purposes</a>.
+                </div>
+            </div>
+        </footer>
+       
+    </body>
+</html>
