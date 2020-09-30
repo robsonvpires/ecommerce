@@ -1,0 +1,20 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %} My Watchlist {% endblock %}
+
+{% block body %}
+<section class="wrapper">
+    <div class="inner"> 
+        <header class="special">
+            <h1>Categories</h1>
+        </header>
+        <div class="content">
+            {% if list_categories %}
+                {% for c  in list_categories %}
+                    <p>{{c.name}}</p>
+                {% endfor %}
+            {% else %}
+                <p>No categories yet</p>
+            {% endif %}
+        </div>
+{% endblock %}

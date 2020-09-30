@@ -78,9 +78,9 @@ def create_listing(request):
             j = new_listing.save(commit=False)
             j.user = request.user
             j.save()
-            return render(request, "auctions/index.html",{
-                'listing_pages': Listing.objects.filter(active=True).order_by('-id')
-            })
+        return render(request, "auctions/index.html",{
+            'listing_pages': Listing.objects.filter(active=True).order_by('-id')
+        })
         
     else:
         return render(request, "auctions/create_listing.html", {
@@ -182,4 +182,11 @@ def my_listings(request):
    
     return render(request, 'auctions/my_listings.html', {
         'my_listings': Listing.objects.filter(user=request.user).order_by('-id')
+    })
+
+@login_required
+def view_categories(request):
+
+    return render(request, 'auctions/list_categories.html', {
+        'list_categories': Category.objects.all()
     })
