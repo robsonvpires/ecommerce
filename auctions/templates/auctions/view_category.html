@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{ listing.name }} {% endblock%}
+
+{% block body %}
+<section class="wrapper">
+    <div class="inner"> 
+        <header class="special">
+            <h1>Category's Listings</h1>
+        </header>
+        <div class="highlights">
+            {% if cat_listings %}
+                {% for listing in cat_listings %}
+                    <section>
+                        <div class="content">
+                            <header>
+                                <img src="{{ listing.image }}" width="200" height="150">
+                                <h3>
+                                    <a href='{% url "view_listing" listing.id %}'>{{listing.name}}</a>
+                                </h3>
+                                <p>by {{listing.user}}</p>
+                            </header>
+                            <p>{{listing.description}}</p>
+                            {% if listing.bids.last %}
+                                <p> last bid - {{listing.bids.last}} </p>
+                            {% else %}
+                                <p> starting price - $ {{listing.price}} </p>
+                            {% endif %}
+                        </div>
+                    </section>
+                {% endfor %}
+            {% else %}
+                <p>No Listings in this category</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

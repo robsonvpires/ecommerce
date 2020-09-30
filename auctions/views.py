@@ -190,3 +190,10 @@ def view_categories(request):
     return render(request, 'auctions/list_categories.html', {
         'list_categories': Category.objects.all()
     })
+
+@login_required
+def view_category(request, category_id):
+
+    return render(request, 'auctions/view_category.html', {
+        'cat_listings': Listing.objects.filter(category=category_id).order_by('-id')
+    })

@@ -1,6 +1,6 @@
 {% extends 'auctions/layout.html' %}
 
-{% block title %} My Watchlist {% endblock %}
+{% block title %} Categories {% endblock %}
 
 {% block body %}
 <section class="wrapper">
@@ -11,7 +11,7 @@
         <div class="content">
             {% if list_categories %}
                 {% for c  in list_categories %}
-                    <p>{{c.name}}</p>
+                    <a href='{% url "view_category" c.id %}'><p>{{c.name}}</p></a>
                 {% endfor %}
             {% else %}
                 <p>No categories yet</p>
